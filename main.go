@@ -34,9 +34,9 @@ func AddEndpoints(router *gin.Engine, db *gorm.DB) {
 	// router.POST("/products", handlers.CreateProduct(db))
 	router.GET("/products/:id", handlers.GetProductById(db))
 	// router.PUT("/products/:id", handlers.UpdateProduct(db))
-	router.DELETE("/products/:id", handlers.DeleteProduct(db))
+	// router.DELETE("/products/:id", handlers.DeleteProduct(db))
 
-	router.GET("/orders", handlers.GetOrders(db))
+	// router.GET("/orders", handlers.GetOrders(db))
 	// router.POST("/orders", handlers.CreateOrder(db))
 	// router.GET("/orders/:id", handlers.GetOrderById(db))
 	// router.PUT("/orders/:id", handlers.UpdateOrder(db))
