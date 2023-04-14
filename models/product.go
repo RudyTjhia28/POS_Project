@@ -10,3 +10,10 @@ type Product struct {
 	Price    float64 `json:"price"`
 	Quantity uint    `json:"quantity"`
 }
+
+type CreateProductRequest struct {
+	gorm.Model
+	Name     string  `json:"name"`
+	Price    float64 `json:"price"`
+	Quantity uint    `json:"quantity"`
+}

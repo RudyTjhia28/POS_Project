@@ -18,20 +18,20 @@ func GetProducts(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
-// func CreateProduct(db *gorm.DB) gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		var input models.CreateProductInput
-// 		if err := c.ShouldBindJSON(&input); err != nil {
-// 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 			return
-// 		}
+func CreateProduct(db *gorm.DB) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		var input models.CreateProductRequest
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
 
-// 		product := models.Product{Name: input.Name, Price: input.Price}
-// 		db.Create(&product)
+		product := models.Product{Name: input.Name, Price: input.Price, Quantity: input.Quantity}
+		db.Create(&product)
 
-// 		c.JSON(http.StatusOK, gin.H{"data": product})
-// 	}
-// }
+		c.JSON(http.StatusOK, gin.H{"data": product})
+	}
+}
 
 func GetProductById(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
