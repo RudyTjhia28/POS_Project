@@ -3,45 +3,53 @@ package main
 import (
 	"log"
 	"pos_project/config"
-	"pos_project/models"
+
+	"pos_project/handlers"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func SetupRouter() *gin.Engine {
-	r := gin.Default()
-	// Custom middleware to log endpoint
-	r.Use(func(c *gin.Context) {
-		log.Println(c.Request.Method, c.Request.URL)
-		c.Next()
-	})
+	// Initialize database connection
+	db, err := config.ConnectDatabase()
+	if err != nil {
+		log.Fatalf("failed to connect database: %v", err)
+	}
 
-	r.GET("/products", func(c *gin.Context) {
-		db, err := config.ConnectDatabase()
-		if err != nil {
-			c.JSON(500, gin.H{
-				"message": "Failed to connect to database",
-			})
-			return
-		}
+	// Create Gin router
+	router := gin.Default()
 
-		var products []models.Product
-		db.Find(&products)
+	// Add endpoints to router
+	AddEndpoints(router, db)
 
-		c.JSON(200, products)
-	})
+	return router
 
-	return r
+}
+
+func AddEndpoints(router *gin.Engine, db *gorm.DB) {
+	// Define endpoints here...
+
+	router.GET("/products", handlers.GetProducts(db))
+	// router.POST("/products", handlers.CreateProduct(db))
+	router.GET("/products/:id", handlers.GetProductById(db))
+	// router.PUT("/products/:id", handlers.UpdateProduct(db))
+	router.DELETE("/products/:id", handlers.DeleteProduct(db))
+
+	router.GET("/orders", handlers.GetOrders(db))
+	// router.POST("/orders", handlers.CreateOrder(db))
+	// router.GET("/orders/:id", handlers.GetOrderById(db))
+	// router.PUT("/orders/:id", handlers.UpdateOrder(db))
+	// router.DELETE("/orders/:id", handlers.DeleteOrder(db))
 }
 
 func main() {
-	gin.SetMode(gin.ReleaseMode)
+	// Initialize router
+	router := SetupRouter()
 
-	r := SetupRouter()
-	err := r.Run(":8080")
+	// Start server
+	err := router.Run(":8080")
 	if err != nil {
-		log.Fatalf("Failed to start server: %v", err)
+		log.Fatalf("failed to start server: %v", err)
 	}
-	log.SetPrefix("INFO: ")
-	log.Println("server runs in port 8080")
 }
