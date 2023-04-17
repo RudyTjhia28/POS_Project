@@ -10,9 +10,13 @@ import (
 func AddEndpoints(router *gin.Engine, db *gorm.DB) {
 	// Define endpoints here...
 
-	router.GET("/products", handlers.GetProducts(db))
-	router.POST("/products", handlers.CreateProduct(db))
-	router.GET("/products/:id", handlers.GetProductById(db))
+	router.POST("/login", func(c *gin.Context) {
+		handlers.Login(c, db)
+	})
+
+	router.GET("/products", handlers.JWTMiddleware(), handlers.GetProducts(db))
+	router.POST("/products", handlers.JWTMiddleware(), handlers.CreateProduct(db))
+	router.GET("/products/:id", handlers.JWTMiddleware(), handlers.GetProductById(db))
 	// router.PUT("/products/:id", handlers.UpdateProduct(db))
 	// router.DELETE("/products/:id", handlers.DeleteProduct(db))
 
