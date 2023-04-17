@@ -4,11 +4,9 @@ import (
 	"log"
 	"pos_project/config"
 	constant "pos_project/config/constants"
-
-	"pos_project/handlers"
+	"pos_project/controllers"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
 func SetupRouter() *gin.Engine {
@@ -22,26 +20,10 @@ func SetupRouter() *gin.Engine {
 	router := gin.Default()
 
 	// Add endpoints to router
-	AddEndpoints(router, db)
+	controllers.AddEndpoints(router, db)
 
 	return router
 
-}
-
-func AddEndpoints(router *gin.Engine, db *gorm.DB) {
-	// Define endpoints here...
-
-	router.GET("/products", handlers.GetProducts(db))
-	router.POST("/products", handlers.CreateProduct(db))
-	router.GET("/products/:id", handlers.GetProductById(db))
-	// router.PUT("/products/:id", handlers.UpdateProduct(db))
-	// router.DELETE("/products/:id", handlers.DeleteProduct(db))
-
-	// router.GET("/orders", handlers.GetOrders(db))
-	// router.POST("/orders", handlers.CreateOrder(db))
-	// router.GET("/orders/:id", handlers.GetOrderById(db))
-	// router.PUT("/orders/:id", handlers.UpdateOrder(db))
-	// router.DELETE("/orders/:id", handlers.DeleteOrder(db))
 }
 
 func main() {
