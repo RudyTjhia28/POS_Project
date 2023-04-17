@@ -3,6 +3,7 @@ module pos_project
 go 1.20
 
 require (
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-gonic/gin v1.9.0
 	github.com/jinzhu/gorm v1.9.16
 	gorm.io/driver/postgres v1.5.0
