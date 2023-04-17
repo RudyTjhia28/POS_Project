@@ -4,6 +4,7 @@ import (
 	"log"
 	"pos_project/config"
 
+	"pos_project/config/constants"
 	"pos_project/handlers"
 
 	"github.com/gin-gonic/gin"
@@ -48,7 +49,7 @@ func main() {
 	router := SetupRouter()
 
 	// Start server
-	err := router.Run(":8080")
+	err := router.Run(constants.GetServiceConfig("ServicePort"))
 	if err != nil {
 		log.Fatalf("failed to start server: %v", err)
 	}
