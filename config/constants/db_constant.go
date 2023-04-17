@@ -2,42 +2,48 @@ package constant
 
 import (
 	"fmt"
+	"strconv"
 )
 
 const (
 	DbUser     = "developmentuser1"
 	DbPassword = "password1"
 	DbName     = "pos-online"
-	DbPort     = 5432
+	DbPort     = "5432"
 	DbTimezone = "Asia/Jakarta"
 
-	ServicePort = 8080
+	ServicePort = ":8080"
 )
 
-func GetDbConfig(constantName string) {
-	switch constantName {
-	case "DbUser":
-		fmt.Println(DbUser)
-	case "DbPassword":
-		fmt.Println(DbPassword)
-	case "DbName":
-		fmt.Println(DbName)
-	case "DbPort":
-		fmt.Println(DbPort)
-	case "DbTimezone":
-		fmt.Println(DbTimezone)
-	case "ServicePort":
-		fmt.Println(ServicePort)
-	default:
-		fmt.Println("Unknown constant")
-	}
+var constantMap = map[string]string{
+	"DbUser":      DbUser,
+	"DbPassword":  DbPassword,
+	"DbName":      DbName,
+	"DbPort":      DbPort,
+	"DbTimezone":  DbTimezone,
+	"ServicePort": ServicePort,
 }
 
-func GetServiceConfig(constantName string) {
-	switch constantName {
-	case "ServicePort":
-		fmt.Println(ServicePort)
-	default:
-		fmt.Println("Unknown constant")
+func GetString(constantName string) (*string, error) {
+	value, exists := constantMap[constantName]
+	if !exists {
+		return nil, fmt.Errorf("unknown constant: %s", constantName)
 	}
+	return &value, nil
+}
+
+func GetInt(constantName string) (*int, error) {
+	value, exists := constantMap[constantName]
+	if !exists {
+		return nil, fmt.Errorf("unknown constant: %s", constantName)
+	}
+	intValue, err := strconv.Atoi(fmt.Sprintf("%v", value))
+	if err != nil {
+		return nil, err
+	}
+	return &intValue, nil
+}
+
+func GetAllConstants() map[string]string {
+	return constantMap
 }

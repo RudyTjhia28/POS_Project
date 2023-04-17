@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 	"pos_project/config"
+	constant "pos_project/config/constants"
 
-	"pos_project/config/constants"
 	"pos_project/handlers"
 
 	"github.com/gin-gonic/gin"
@@ -47,9 +47,12 @@ func AddEndpoints(router *gin.Engine, db *gorm.DB) {
 func main() {
 	// Initialize router
 	router := SetupRouter()
-
 	// Start server
-	err := router.Run(constants.GetServiceConfig("ServicePort"))
+	res, err := constant.GetString("ServicePort")
+	if err != nil {
+		return
+	}
+	err = router.Run(*res)
 	if err != nil {
 		log.Fatalf("failed to start server: %v", err)
 	}
