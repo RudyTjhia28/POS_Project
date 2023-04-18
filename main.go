@@ -19,6 +19,12 @@ func SetupRouter() *gin.Engine {
 	// Create Gin router
 	router := gin.Default()
 
+	router.ForwardedByClientIP = true
+
+	router.SetTrustedProxies([]string{
+		constant.ProxyLocal,
+	})
+
 	// Add endpoints to router
 	controllers.AddEndpoints(router, db)
 
@@ -29,13 +35,9 @@ func SetupRouter() *gin.Engine {
 func main() {
 	// Initialize router
 	router := SetupRouter()
+
 	// Start server
-	res, err := constant.GetString("ServicePort")
-	if err != nil {
-		log.Fatal("failed to get ServicePort Constant", err)
-		return
-	}
-	err = router.Run(*res)
+	err := router.Run(constant.ServicePort)
 	if err != nil {
 		log.Fatalf("failed to start server: %v", err)
 	}
