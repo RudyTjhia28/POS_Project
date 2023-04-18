@@ -32,6 +32,7 @@ func main() {
 	// Start server
 	res, err := constant.GetString("ServicePort")
 	if err != nil {
+		log.Fatal("failed to get ServicePort Constant", err)
 		return
 	}
 	err = router.Run(*res)
