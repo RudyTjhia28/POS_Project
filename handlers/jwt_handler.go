@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
+	constant "pos_project/config/constants"
+
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
@@ -25,7 +27,11 @@ func JWTMiddleware() gin.HandlerFunc {
 
 			//TO-DO
 			// change the secret key
-			return []byte("YOUR_SECRET_KEY"), nil
+			sKey, err := constant.GetString("SecretKey")
+			if err != nil {
+				return nil, err
+			}
+			return []byte(*sKey), nil
 		})
 
 		if err != nil {

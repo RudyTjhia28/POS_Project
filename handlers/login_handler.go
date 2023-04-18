@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 
+	constant "pos_project/config/constants"
 	"pos_project/models"
 
 	"github.com/dgrijalva/jwt-go"
@@ -35,7 +36,13 @@ func Login(c *gin.Context, db *gorm.DB) {
 		"exp":      time.Now().Add(time.Hour * 24).Unix(),
 	})
 
-	tokenString, err := token.SignedString([]byte("YOUR_SECRET_KEY"))
+	sKey, err := constant.GetString("SecretKey")
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get Secret Key"})
+		return
+	}
+
+	tokenString, err := token.SignedString([]byte(*sKey))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
