@@ -15,10 +15,9 @@ func AddEndpoints(router *gin.Engine, db *gorm.DB) {
 	})
 
 	router.GET("/products", handlers.JWTMiddleware(), handlers.GetProducts(db))
-	router.POST("/products", handlers.JWTMiddleware(), handlers.CreateProduct(db))
+	router.POST("/addProduct", handlers.JWTMiddleware(), handlers.CreateProduct(db))
 	router.GET("/products/:id", handlers.JWTMiddleware(), handlers.GetProductById(db))
-	// router.PUT("/products/:id", handlers.UpdateProduct(db))
-	// router.DELETE("/products/:id", handlers.DeleteProduct(db))
+	router.PUT("/updateProduct", handlers.JWTMiddleware(), handlers.UpdateProduct(db))
 
 	// router.GET("/orders", handlers.GetOrders(db))
 	// router.POST("/orders", handlers.CreateOrder(db))
