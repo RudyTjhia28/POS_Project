@@ -13,6 +13,7 @@ const (
 	DbTimezone = "Asia/Jakarta"
 
 	ServicePort = ":8080"
+	SectetKey   = "401fb76e-50ab-402d-a1cc-21261d2bfc4a"
 )
 
 var constantMap = map[string]string{
@@ -22,6 +23,7 @@ var constantMap = map[string]string{
 	"DbPort":      DbPort,
 	"DbTimezone":  DbTimezone,
 	"ServicePort": ServicePort,
+	"SecretKey":   SectetKey,
 }
 
 func GetString(constantName string) (*string, error) {
