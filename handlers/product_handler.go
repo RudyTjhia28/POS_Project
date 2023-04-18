@@ -45,36 +45,22 @@ func GetProductById(db *gorm.DB) gin.HandlerFunc {
 	}
 }
 
-// func UpdateProduct(db *gorm.DB) gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		var product models.Product
-// 		if err := db.First(&product, c.Param("id")).Error; err != nil {
-// 			c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
-// 			return
-// 		}
-
-// 		var input models.UpdateProductInput
-// 		if err := c.ShouldBindJSON(&input); err != nil {
-// 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-// 			return
-// 		}
-
-// 		db.Model(&product).Updates(input)
-
-// 		c.JSON(http.StatusOK, gin.H{"data": product})
-// 	}
-// }
-
-func DeleteProduct(db *gorm.DB) gin.HandlerFunc {
+func UpdateProduct(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var product models.Product
-		if err := db.First(&product, c.Param("id")).Error; err != nil {
+		var input models.CreateProductRequest
+		if err := c.ShouldBindJSON(&input); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		var oldProduct models.Product
+		if err := db.First(&oldProduct, input.ID).Error; err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "Record not found!"})
 			return
 		}
 
-		db.Delete(&product)
+		db.Model(&oldProduct).Updates(input)
 
-		c.JSON(http.StatusOK, gin.H{"data": true})
+		c.JSON(http.StatusOK, gin.H{"data": oldProduct})
 	}
 }
