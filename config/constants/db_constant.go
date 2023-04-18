@@ -14,6 +14,8 @@ const (
 
 	ServicePort = ":8080"
 	SectetKey   = "401fb76e-50ab-402d-a1cc-21261d2bfc4a"
+
+	ProxyLocal = "127.0.0.1"
 )
 
 var constantMap = map[string]string{
