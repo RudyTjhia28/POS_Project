@@ -27,7 +27,7 @@ func (ps *productService) GetProducts() ([]models.Product, error) {
 func (ps *productService) GetProductById(id string) (models.Product, error) {
 	var product models.Product
 	if err := ps.db.First(&product, id).Error; err != nil {
-		return models.Product{}, errors.New("Record not found")
+		return models.Product{}, errors.New("record not found")
 	}
 
 	return product, nil
@@ -45,7 +45,7 @@ func (ps *productService) CreateProduct(input *models.CreateProductRequest) (*mo
 func (ps *productService) UpdateProduct(input *models.CreateProductRequest) (*models.Product, error) {
 	var oldProduct models.Product
 	if err := ps.db.First(&oldProduct, input.ID).Error; err != nil {
-		return nil, errors.New("Record not found")
+		return nil, errors.New("record not found")
 	}
 
 	if err := ps.db.Model(&oldProduct).Updates(input).Error; err != nil {
