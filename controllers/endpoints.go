@@ -14,10 +14,11 @@ func AddEndpoints(router *gin.Engine, db *gorm.DB) {
 		handlers.Login(c, db)
 	})
 
-	router.GET("/products", handlers.JWTMiddleware(), handlers.GetProducts(db))
-	router.POST("/addProduct", handlers.JWTMiddleware(), handlers.CreateProduct(db))
-	router.GET("/products/:id", handlers.JWTMiddleware(), handlers.GetProductById(db))
-	router.PUT("/updateProduct", handlers.JWTMiddleware(), handlers.UpdateProduct(db))
+	product := handlers.NewProductHandler(db)
+	router.GET("/products", handlers.JWTMiddleware(), product.GetProducts)
+	router.POST("/addProduct", handlers.JWTMiddleware(), product.CreateProduct)
+	router.GET("/products/:id", handlers.JWTMiddleware(), product.GetProductById)
+	router.PUT("/updateProduct", handlers.JWTMiddleware(), product.UpdateProduct)
 
 	// router.GET("/orders", handlers.GetOrders(db))
 	// router.POST("/orders", handlers.CreateOrder(db))
