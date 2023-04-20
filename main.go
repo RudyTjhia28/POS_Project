@@ -2,9 +2,9 @@ package main
 
 import (
 	"log"
+	"pos_project/apis"
 	"pos_project/config"
 	constant "pos_project/config/constants"
-	"pos_project/controllers"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,7 +26,7 @@ func SetupRouter() *gin.Engine {
 	})
 
 	// Add endpoints to router
-	controllers.AddEndpoints(router, db)
+	apis.AddEndpoints(router, db)
 
 	return router
 
