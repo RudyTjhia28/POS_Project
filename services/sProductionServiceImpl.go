@@ -22,7 +22,7 @@ func (ps *ProductServices) GetProducts() (*[]models.Product, error) {
 		return nil, err
 	}
 
-	return &products, nil
+	return products, nil
 }
 
 func (ps *ProductServices) GetProductById(id string) (*models.Product, error) {

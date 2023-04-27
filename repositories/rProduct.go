@@ -14,12 +14,12 @@ func NewProductRepository(db *gorm.DB) *ProductRepository {
 	return &ProductRepository{db: db}
 }
 
-func (r *ProductRepository) GetProducts() ([]models.Product, error) {
+func (r *ProductRepository) GetProducts() (*[]models.Product, error) {
 	var products []models.Product
 	if err := r.db.Find(&products).Error; err != nil {
 		return nil, err
 	}
-	return products, nil
+	return &products, nil
 }
 
 func (r *ProductRepository) GetProductById(id string) (models.Product, error) {
