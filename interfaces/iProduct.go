@@ -1,10 +1,14 @@
 package interfaces
 
-import "pos_project/models"
+import (
+	"pos_project/models"
+
+	"github.com/gin-gonic/gin"
+)
 
 type ProductRepository interface {
-	GetProducts() (*[]models.Product, error)
-	GetProductById(id string) (*models.Product, error)
-	CreateProduct(*models.CreateProductRequest) (*models.Product, error)
-	UpdateProduct(*models.CreateProductRequest) (*models.Product, error)
+	GetProducts(ctx *gin.Context) (*[]models.Product, error)
+	// GetProductById(ctx *gin.Context, id string) (*models.Product, error)
+	// CreateProduct(ctx *gin.Context, req *models.CreateProductRequest) (*models.Product, error)
+	// UpdateProduct(ctx *gin.Context, req *models.CreateProductRequest) (*models.Product, error)
 }
