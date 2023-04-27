@@ -7,16 +7,16 @@ import (
 	"gorm.io/gorm"
 )
 
-type productService struct {
+type ProductServices struct {
 	productRepo *repositories.ProductRepository
 }
 
-func NewProductService(db *gorm.DB) *productService {
+func NewProductService(db *gorm.DB) *ProductServices {
 	productRepo := repositories.NewProductRepository(db)
-	return &productService{productRepo}
+	return &ProductServices{productRepo}
 }
 
-func (ps *productService) GetProducts() (*[]models.Product, error) {
+func (ps *ProductServices) GetProducts() (*[]models.Product, error) {
 	products, err := ps.productRepo.GetProducts()
 	if err != nil {
 		return nil, err
@@ -25,7 +25,7 @@ func (ps *productService) GetProducts() (*[]models.Product, error) {
 	return &products, nil
 }
 
-func (ps *productService) GetProductById(id string) (*models.Product, error) {
+func (ps *ProductServices) GetProductById(id string) (*models.Product, error) {
 	product, err := ps.productRepo.GetProductById(id)
 	if err != nil {
 		return nil, err
@@ -33,7 +33,7 @@ func (ps *productService) GetProductById(id string) (*models.Product, error) {
 	return &product, nil
 }
 
-func (ps *productService) CreateProduct(input *models.CreateProductRequest) (*models.Product, error) {
+func (ps *ProductServices) CreateProduct(input *models.CreateProductRequest) (*models.Product, error) {
 	product := models.Product{Name: input.Name, Price: input.Price, Quantity: input.Quantity}
 	result, err := ps.productRepo.CreateProduct(models.CreateProductRequest(product))
 	if err != nil {
@@ -43,7 +43,7 @@ func (ps *productService) CreateProduct(input *models.CreateProductRequest) (*mo
 	return &result, nil
 }
 
-func (ps *productService) UpdateProduct(input *models.CreateProductRequest) (*models.Product, error) {
+func (ps *ProductServices) UpdateProduct(input *models.CreateProductRequest) (*models.Product, error) {
 	result, err := ps.productRepo.UpdateProduct(*input)
 	if err != nil {
 		return nil, err

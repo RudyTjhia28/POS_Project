@@ -3,6 +3,7 @@ package handlers
 import (
 	"net/http"
 
+	"pos_project/interfaces"
 	"pos_project/models"
 	"pos_project/services"
 
@@ -11,17 +12,22 @@ import (
 )
 
 type ProductHandler struct {
-	service services.ProductService
+	service  services.ProductService
+	iProduct interfaces.IProductImpl
 }
 
 func NewProductHandler(db *gorm.DB) *ProductHandler {
 	return &ProductHandler{
-		service: services.NewProductService(db),
+		service:  services.NewProductService(db),
+		iProduct: interfaces.IProductImpl{},
 	}
 }
 
 func (h *ProductHandler) GetProducts(c *gin.Context) {
-	products, err := h.service.GetProducts()
+
+	products, err := h.iProduct.GetProducts()
+
+	//  := h.service.GetProducts()
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to get products"})
 		return
